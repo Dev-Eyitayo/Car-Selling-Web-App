@@ -1,0 +1,125 @@
+{% extends 'Offshore/base.html' %}
+{% load static %}
+{% block title %}Home{% endblock %}
+
+{% block banner_slider%}
+    {% comment %} <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="{% static "Offshore/images/banner/empty slide.png" %}" class="d-block w-100" alt="banner image">
+        </div>
+        </div>
+    </div> {% endcomment %}
+    <div style="background: url({% static "Offshore/images/banner/empty slide.png" %}); background-size: cover; height: 520px">
+        <div style="padding-top: 120px; padding-left: 60px; width: 50%;">
+            <h1 style="font-weight: bold; color: black; font-size: 35px; ">Revolutionize Your Driving Experience!</h1>
+
+            <h6 style="margin-top: 15px; width: 85%; ">Unlock your journey with our exceptional range of vehicles! From stylish sedans to rugged SUVs, we offer quality cars tailored to your needs. Experience unparalleled service and unbeatable prices. Start your next adventure with us!</h6>
+            <a href="#available" style="text-decoration: none; color: white; "><button class=""style="margin-top: 30px; padding: 15px; border-radius: 10px; border: none;  background-color: #1a1aff" onmouseover="this.style.backgroundColor='#0000e6';"
+                onmouseout="this.style.backgroundColor='#1a1aff';">Explore our exhotic brands</a></button>
+        </div>
+        
+    </div>
+    
+{% endblock banner_slider %}
+
+{% block product %}
+<br></br>
+
+<div class="container">
+    <div class="row text-center p-5 text-white border-bottom shadow" style="background-color: #232f3e; border-radius: 10px;">
+        <h1>Products</h1>
+        <small class="fs-6">
+            At Offshore, we offer rigorous quality assurance that ensures you drive away in a reliable, high-quality vehicle. With flexible financing options tailored to fit your budget, we make car ownership accessible.
+
+            Offshore's trade-in assistance provides fair evaluations for your current vehicle. Plus, our comprehensive after-sales support includes maintenance services and warranty options for continued peace of mind. Experience the Offshore difference today!
+        </small>
+    </div>
+</div>
+<br></br>
+{% endblock product %}
+
+{% comment %} Brands section  {% endcomment %}
+{% block maincontent%}
+    <div id="available" class="container">
+        <h2 class="text-center">Available Brands</h2>
+        <br></br>
+
+        <div class="row container">
+            <div class="col-md-4 col-sm-4 mi-go wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.6s" style="animation-duration: 1s; animation-delay: 0.6s; animation-name:none;">
+                <div class="goodnesssec buttermilk smbg" style="border-radius: 15px;">
+                    <a href="{% url 'brand' 'MD' %}">
+                        <div class="goodnessseccont text-center">
+                            <img src="{% static 'Offshore/images/benz logo.png' %}" class="img-responsive" alt="">
+                            <p class="mlkpro">Mercedez</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+
+            <div class="col-md-4 col-sm-4 mi-go wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.6s" style="animation-duration: 1s; animation-delay: 0.6s; animation-name:none;">
+                <div class="goodnesssec buttermilk smbg" style="border-radius: 15px;">
+                    <a href="{% url 'brand' 'LB' %}">
+                        <div class="goodnessseccont text-center">
+                            <img src="{% static 'Offshore/images/lambo logo.png' %}" class="img-responsive" alt="">
+                            <p class="mlkpro">Lamborghini</p> 
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-4 mi-go wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.6s" style="animation-duration: 1s; animation-delay: 0.6s; animation-name:none;">
+                <div class="goodnesssec buttermilk smbg" style="border-radius: 15px;">
+                    <a href="{% url 'brand' 'FR' %}">
+                        <div class="goodnessseccont text-center">
+                            <img src="{% static 'Offshore/images/ferarri logo.png' %}" class="img-responsive" alt="">
+                            <p class="mlkpro">Ferrari</p> 
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+        <p></p>
+        <p></p>
+        <div class="row container">
+            <div class="col-md-4 col-sm-4 mi-go wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.6s" style="animation-duration: 1s; animation-delay: 0.6s; animation-name:none;">
+                <div class="goodnesssec buttermilk smbg" style="border-radius: 15px;">
+                    <a href="{% url 'brand' 'MB' %}">
+                        <div class="goodnessseccont text-center">
+                            <img src="{% static 'Offshore/images/maybach logo.png' %}" class="img-responsive" alt="">
+                            <p class="mlkpro">Maybach</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+
+            <div class="col-md-4 col-sm-4 mi-go wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.6s" style="animation-duration: 1s; animation-delay: 0.6s; animation-name:none;">
+                <div class="goodnesssec buttermilk smbg" style="border-radius: 15px;">
+                    <a href="{% url 'brand' 'BG' %}">
+                        <div class="goodnessseccont text-center">
+                            <img src="{% static 'Offshore/images/bugatti logo.png' %}" class="img-responsive" alt="">
+                            <p class="mlkpro">Bugatti</p> 
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-4 mi-go wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.6s" style="animation-duration: 1s; animation-delay: 0.6s; animation-name:none;">
+                <div class="goodnesssec buttermilk smbg" style="border-radius: 15px;">
+                    <a href="{% url 'brand' 'FD' %}">
+                        <div class="goodnessseccont text-center">
+                            <img src="{% static 'Offshore/images/ford logo.png' %}" class="img-responsive" alt="">
+                            <p class="mlkpro">Ford</p> 
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+<br></br>
+<br>
+{% endblock maincontent %} 

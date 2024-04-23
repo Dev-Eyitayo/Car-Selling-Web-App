@@ -1,0 +1,26 @@
+{% extends 'Offshore/base.html' %}
+{% load static %}
+{% block title %}Create account{% endblock title %}
+{% block maincontent %}
+    <div class="container">
+        <div class="row my-3">
+            <div class="col-sm-6 offset-sm-3">
+                <h3 class="text-center">Create Account</h3>
+                <hr>
+
+                <form action="" method="post" novalidate class="shadow p-5">
+                    {% csrf_token %}
+                    {% for fm in form %}
+                        {{ fm.label_tag }} {{ fm }} <small class="text-danger">{{ fm.errors|striptags }}</small>
+                        <br>
+                    {% endfor %}
+                    <input type="submit" value="Submit" class="btn btn-primary"> <br>
+
+                    <div class="text-center text-primary fw-bold">
+                        <small>Existing User? <a href="#" class="text-danger" style="text-decoration: none">Login Now</a></small>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock maincontent %}
