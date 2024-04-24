@@ -2,7 +2,8 @@ from django.shortcuts import render
 from django.views import View
 from . models import Product
 from django.db.models import Count
-from .forms import CustomerRegistrationForm
+from .forms import CustomerRegistrationForm, CustomerProfileForm
+from django.contrib import messages
 
 def home(request):
     return render(request, 'Offshore/home.html')
@@ -35,3 +36,24 @@ class CustomerRegistrationView(View):
     def get(self, request):
         form = CustomerRegistrationForm()
         return render(request, 'Offshore/registration.html', locals())
+    
+    def post(self, request):
+        form = CustomerRegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Account has been created successfully!")
+        else:
+            messages.warning(request, "Invalid Input Data")
+        return render(request, 'Offshore/registration.html', locals())
+
+class ProfileView(View):
+    def get(self, request):
+        form = CustomerProfileForm()
+        return render(request, 'Offshore/profile.html', locals())
+    
+    def post(self, request):
+        return render(request, 'Offshore/profile.html', locals())
+             
+            
+    
+    

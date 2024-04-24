@@ -61,7 +61,7 @@
           <li class="nav-item dropdown mx-2">
             <a class="nav-link dropdown-toggle text-white" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Eyitayo</a>
             <ul class="dropdown-menu" aria-labelledby="profileDropdown">
-              <li><a class="dropdown-item" href="#">Profile</a></li>
+              <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="#">Orders</a></li>
               <li><hr class="dropdown-divider"></li>
@@ -78,7 +78,7 @@
             <a href="#" class="nav-link text-white">Wishlist 4</a>
           </li>
           <li class="nav-item mx-2">
-            <a href="#" class="nav-link text-white">Login</a>
+            <a href="{% url 'login' %}" class="nav-link text-white">Login</a>
           </li>
           <li class="nav-item mx-2">
             <a href="{% url 'register' %}" class="nav-link text-white">Create account</a>
@@ -101,14 +101,16 @@
 
     {% endblock maincontent %}
     
-    <footer class="container-fluid text-center p-2 mt-5" style="background-color: #232f3e; color:white;">
-      Copyright: 2024 || Developed by Group 5
-      <div class="footer-list">
-        <h3 style="font-size: 15px; " class="text-center">CONTACT US</h3>
-         <ul style="list-style-type: none; ">
-            <li class="text-center">+234-678934456</li>
+    <footer class="container-fluid text-center p-2" style="background-color: #232f3e; color:white;">
+      
+      <div class="footer-list" style="margin-top: 6px;">
+        {% comment %} <h3 style="font-size: 15px; " class="text-center">CONTACT US</h3> {% endcomment %}
+         <ul style="list-style-type: none;">
+            <li>Copyright: 2024 || Developed by Group 5</li>
+            <li class="text-center">CONTACT US</li>
+            <li class="text-center">+234-343267553</li>
             <li class="text-center">shopoffshorecars@gmail.com</li>
-            <li class="text-center">leadcity university toll gate, Ibaan.</li>
+            <li class="text-center">Lead City University, Toll gate, Ibadan.</li>
           </ul>
       </div>
     </footer>
