@@ -12,8 +12,10 @@ urlpatterns = [
     path('product-feature/<int:pk>', views.ProductFeatureView.as_view(), name="product-feature"),
     path('brand-name/<val>', views.BrandNameView.as_view(), name="brand-name"),
     path('about/', views.about, name="about"),
-    path('profile/', views.ProfileView.as_view(), name='profile'),
-    path('address/', views.ProfileView.as_view(), name='address'),
+    path('accounts/profile/', views.ProfileView.as_view(), name='profile'),
+    path('address/', views.address, name='address'),
+    
+    
     # user authentication
     path('create account/', views.CustomerRegistrationView.as_view(), name="register"),
     path('login/', auth_view.LoginView.as_view(template_name='Offshore/login.html', authentication_form=LoginForm), name="login"),

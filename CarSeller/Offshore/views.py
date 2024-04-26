@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import View
-from . models import Product
+from . models import Product, Customer
 from django.db.models import Count
 from .forms import CustomerRegistrationForm, CustomerProfileForm
 from django.contrib import messages
@@ -52,8 +52,29 @@ class ProfileView(View):
         return render(request, 'Offshore/profile.html', locals())
     
     def post(self, request):
+        form = CustomerProfileForm(request.POST)
+        if form.is_valid():
+            user = request.user
+            name = form.cleaned_data['name']
+            city = form.cleaned_data['city']
+            mobile = form.cleaned_data['mobile']
+            state = form.cleaned_data['state']
+            zipcode = form.cleaned_data['zipcode']
+            
+            reg = Customer(user=user, name=name, mobile=mobile, city=city, state=state, zipcode=zipcode)
+            reg.save()
+            messages.success(request, 'Your Profile has been successfully updated!')
+        
+        else: 
+            messages.success(request, 'invalid Input data!')
         return render(request, 'Offshore/profile.html', locals())
-             
+            
+def address(request):
+    add = Customer.objects.filter(user=request.user)
+    
+    return render(request, 'Offshore/address.html', locals())
+    
+    
             
     
     
