@@ -101,7 +101,7 @@
 
     {% endblock maincontent %}
     
-    <footer class="custom-footer py-2 fixed-bottom">
+    {% comment %} <footer class="custom-footer py-2 fixed-bottom">
       <div class="container d-flex justify-content-center align-items-center text-light">
           <p class="mb-0">
               <span style="font-size: 2em; vertical-align: middle;">&copy;</span> 
@@ -114,7 +114,38 @@
       .custom-footer {
           background-color: #232f3e;
       }
+    </style> {% endcomment %}
+
+    <style>
+      .custom-footer {
+        background-color: #232f3e;
+        position: fixed;
+        bottom: -100px; /* Initial position off-screen */
+        width: 100%;
+        transition: bottom 0.3s ease; /* Add smooth transition */
+      }
     </style>
+
+    <footer class="custom-footer py-2">
+      <div class="container d-flex justify-content-center align-items-center text-light">
+        <p class="mb-0">
+          <span style="font-size: 2em; vertical-align: middle;">&copy;</span> 
+          <span style="vertical-align: middle;">2024 Developed by Group 5</span>
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      window.onscroll = function() {scrollFunction()};
+  
+      function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+          document.querySelector('.custom-footer').style.bottom = '0'; /* Show footer when scrolled */
+        } else {
+          document.querySelector('.custom-footer').style.bottom = '-100px'; /* Hide footer when not scrolled */
+        }
+      }
+    </script>
   
   
   
