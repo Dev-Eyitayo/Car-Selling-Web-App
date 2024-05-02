@@ -127,4 +127,4 @@ LOGIN_REDIRECT = '/profile/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBanckend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

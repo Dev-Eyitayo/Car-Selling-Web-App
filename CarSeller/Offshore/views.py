@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from . models import Product, Customer
-from django.db.models import Count
+from django.http import JsonResponse
+from . models import Product, Customer, Cart
+from django.db.models import Count, Q
 from .forms import CustomerRegistrationForm, CustomerProfileForm
 from django.contrib import messages
 
@@ -64,7 +65,6 @@ class ProfileView(View):
             reg = Customer(user=user, name=name, mobile=mobile, city=city, state=state, zipcode=zipcode)
             reg.save()
             messages.success(request, 'Your Profile has been successfully updated!')
-        
         else: 
             messages.success(request, 'invalid Input data!')
         return render(request, 'Offshore/profile.html', locals())
@@ -95,3 +95,86 @@ class updateAddress(View):
         return redirect(address)    
     
     
+    
+def add_to_cart(request):
+    user = request.user
+    product_id = request.GET.get('prod_id')
+    product = Product.objects.get(id=product_id)
+    Cart(user=user, product=product).save()
+    return redirect("/cart")
+    
+def show_cart(request):
+    user = request.user
+    cart = Cart.objects.filter(user=user)
+    amount = 0
+    for p in cart:
+        value = p.quantity * p.product.selling_price
+        amount = amount + value
+    totalamount = amount + 30
+    
+    return render(request, 'Offshore/addtocart.html', locals())
+
+def plus_cart(request):
+    if request.method == 'GET':
+        prod_id = request.GET['prod_id']
+        c = Cart.objects.get(Q(product=prod_id) & Q(user=request.user))
+        c.quantity += 1
+        c.save()
+        user = request.user
+        cart = Cart.objects.filter(user=user)
+        amount = 0
+        for p in cart:
+            value = p.quantity * p.product.selling_price
+            amount = amount + value
+        totalamount = amount + 30
+        data = {
+            'quantity': c.quantity,
+            'amount': amount,
+            'totalamount': totalamount
+        }
+        return JsonResponse(data)
+
+
+def minus_cart(request):
+    if request.method == 'GET':
+        prod_id = request.GET['prod_id']
+        c = Cart.objects.get(Q(product=prod_id) & Q(user=request.user))
+        c.quantity -= 1
+        c.save()
+        user = request.user
+        cart = Cart.objects.filter(user=user)
+        amount = 0
+        for p in cart:
+            value = p.quantity * p.product.selling_price
+            amount = amount + value
+        totalamount = amount + 30
+        data = {
+            'quantity': c.quantity,
+            'amount': amount,
+            'totalamount': totalamount
+        }
+        return JsonResponse(data)
+
+def remove_cart(request):
+    if request.method == 'GET':
+        prod_id = request.GET['prod_id']
+        c = Cart.objects.get(Q(product=prod_id) & Q(user=request.user))
+        c.delete()
+        user = request.user
+        cart = Cart.objects.filter(user=user)
+        amount = 0
+        for p in cart:
+            value = p.quantity * p.product.selling_price
+            amount = amount + value
+        totalamount = amount + 30
+        data = {
+            'quantity': c.quantity,
+            'amount': amount,
+            'totalamount': totalamount
+        }
+        return JsonResponse(data)
+
+
+class Checkout(View):
+    def get(self, request):
+        return render(request, 'Offshore/checkout.html', locals())

@@ -16,6 +16,18 @@ urlpatterns = [
     path('address/', views.address, name='address'),
     path('updateAddress/<int:pk>', views.updateAddress.as_view(), name='updateAddress'),
     
+    # Cart 
+    path("add-to-cart/", views.add_to_cart, name = "add-to-cart"),
+    path('cart/', views.show_cart, name="showcart"),
+    path('checkout/', views.Checkout.as_view(), name="checkout"),
+    
+    path('pluscart/', views.plus_cart,),
+    path('minuscart/', views.minus_cart,),
+    path('removecart/', views.remove_cart,),
+    
+    
+    
+    
     # user authentication
     path('create account/', views.CustomerRegistrationView.as_view(), name="register"),
     path('login/', auth_view.LoginView.as_view(template_name='Offshore/login.html', authentication_form=LoginForm), name="login"),
