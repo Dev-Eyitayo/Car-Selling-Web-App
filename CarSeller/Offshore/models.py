@@ -79,3 +79,36 @@ class Cart(models.Model):
     @property
     def total_cost(self):
         return self.quantity * self.product.selling_price
+
+
+STATUS_CHOICES = (
+    ('Accepted', 'Accepted'),
+    ('Packaged', 'Packaged'),
+    ('On the way', 'On the way'),
+    ('Delivered', 'Delivered'),
+    ('Canceled', 'Canceled'),
+    ('Pending', 'Pending'),
+)
+
+
+class Payment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    amount = models.FloatField()
+    paypal_order_id = models.CharField(max_length=100, blank=True, null=True)
+    paypal_payment_status = models.CharField(max_length=100, blank=True, null=True)
+    paypal_payment_id = models.CharField(max_length=100, blank=True, null=True)
+    paid = models.BooleanField(default=False)
+    
+    
+class OrderPlaced(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete = models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+    ordered_date = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='Pending')
+    payment = models.ForeignKey(Payment, on_delete=models.CASCADE)
+    
+    @property
+    def total_cost(self):
+        return self.quantity * self.product.selling_price
