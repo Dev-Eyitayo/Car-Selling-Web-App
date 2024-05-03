@@ -33,9 +33,9 @@
                 Car Brands
               </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{% url 'brand' 'FR'%}">Ferrari</a></li>
+                <li><a class="dropdown-item" href="{% url 'brand' 'BT'%}">Bentley</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="{% url 'brand' 'BG'%}">Bugatti</a></li>
+                <li><a class="dropdown-item" href="{% url 'brand' 'AU'%}">Audi</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="{% url 'brand' 'MB'%}">Maybach</a></li>
                 <li><hr class="dropdown-divider"></li>
@@ -43,7 +43,7 @@
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="{% url 'brand' 'LB'%}">Lamborghini</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="{% url 'brand' 'FD'%}">Ford</a></li>
+                <li><a class="dropdown-item" href="{% url 'brand' 'BMW'%}">BMW</a></li>
               </ul>
             </li>
             <li class="nav-item">
@@ -78,7 +78,7 @@
             <a href="{% url 'showcart' %}" class="nav-link text-white">Cart 4</a>
           </li>
           <li class="nav-item mx-2">
-            <a href="#" class="nav-link text-white">Wishlist 4</a>
+            {% comment %} <a href="#" class="nav-link text-white">Wishlist 4</a> {% endcomment %}
           </li>
 
           {% else %}

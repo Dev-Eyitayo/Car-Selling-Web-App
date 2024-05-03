@@ -35,9 +35,9 @@
                     {% for ad in add %}
                         <div class="card">
                             <div class="card-body">
-                                <h5>{{ ad.name }}</h5>
+                                <h5>{{ add.name }}</h5>
                                 <p>Mobile: 0{{ ad.mobile }}</p>
-                                <p>{{ ad.state }}, {{ ad.city }} - {{ ad.zipcode }}</p>
+                                <p>{{ ad.state }}, {{ ad.city }} - {{ ad.zipcode }}
                             </div>
                         </div>
                         <div class="form-check mt-2 mb-5">
@@ -45,45 +45,48 @@
                             <label class="form-check-label fw-bold" for="custadd{{ forloop.counter }}">
                                 Address:{{ forloop.counter }}</label>
                         </div>
-                    {% endfor %}
-                    <div class="form-check mb-3">
-                        <label for="totamount" class="form-label">Total Amount</label>
-                        <input type="number" class="form-control" name="totamount" value="{{ totalamount }}" readonly>
-                    </div>
-                    <div class="text-end" id="paypal-button-container">
-                        {% comment %} {{ paypal.render }} {% endcomment %}
-                    </div>
+
+                        {% endfor %}
+                        <div class="form-check mb-3">
+                            <label for="totamount" class="form-label">Total Amount</label>
+                            <input type="number" class="form-control" name="totamount" value={{ totalamount }} readonly>
+                        </div>
+                        <div class="text-end">
+                            {% comment %} <button type="submit" class="btn btn-warning mt-3 px-5 fw-bold">Continue</button> {% endcomment %}
+
+                            {% comment %} <div id="paypal-button-container"></div> {% endcomment %}
+                            <div class="paypal-button-container>"{{ paypal.render }}</div>
+                            {% comment %} <button id="rzp-button1" type="submit" class="btn btn-warning mt-3 px-5 fw-bold">Payment</button> {% endcomment %}
+                        </div>
                 </form>
             </div>
         </div>
     </div>
-
 {% endblock maincontent %}
 
+
 {% block payment_gateway %}
-    <script src="https://www.paypal.com/sdk/js?client-id=AVkxe89SeejpEq2RN-rl3lf1VDkvzjgmjYfvIS8FlsKKy0wol9bir9K1SqpY2iKbbJa3nfy71KMA62nf&currency=USD"></script>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            paypal.Buttons({
-                createOrder: function(data, actions) {
-                    return actions.order.create({
-                        purchase_units: [{"amount":{"currency_code": "USD", "value": '{{ totalamount }}'}}]
-                    });
-                },
-                onApprove: function(data, actions) {
-                    return actions.order.capture().then(function(orderData) {
-                        var paypalPaymentID = orderData.purchase_units[0].payments.captures[0].id;
-                        console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
-                        document.getElementById('paypal-payment-id').value = paypalPaymentID;
-                        document.getElementById('myform').submit();
-                    });
-                },
-                onError: function(err) {
-                    console.log(err);
-                }
-            }).render('#paypal-button-container');
-        });
-    </script>
-
+<script src="https://www.paypal.com/sdk/js?client-id=AVkxe89SeejpEq2RN-rl3lf1VDkvzjgmjYfvIS8FlsKKy0wol9bir9K1SqpY2iKbbJa3nfy71KMA62nf&currency=USD"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        paypal.Buttons({
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{"amount":{"currency_code": "USD", "value": '{{ totalamount }}'}}]
+                });
+            },
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(orderData) {
+                    var paypalPaymentID = orderData.purchase_units[0].payments.captures[0].id;
+                    console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                    document.getElementById('paypal-payment-id').value = paypalPaymentID;
+                    document.getElementById('myform').submit();
+                });
+            },
+            onError: function(err) {
+                console.log(err);
+            }
+        }).render('#paypal-button-container');
+    });
+</script>
 {% endblock payment_gateway %}

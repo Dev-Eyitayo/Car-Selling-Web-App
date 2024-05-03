@@ -1,12 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
 CATEGORY_CHOICES = (
-    ('FD','Ford'),
-    ('MD', 'Mercedez'),
-    ('FR', 'Ferrari'),
+    ('AU','Audi'),
+    ('MD', 'Mercedes'),
+    ('BMW', 'BMW'),
     ('LB', 'Lamborghini'),
     ('MB', 'Maybach'),
-    ('BG', 'Buggati'),
+    ('BT', 'Bentley'),
 )
 STATE_CHOICES = (
     ('Abia', 'Abia'),
@@ -53,7 +53,7 @@ class Product(models.Model):
     name = models.CharField(max_length=100)
     selling_price = models.FloatField()
     features = models.TextField()
-    brand = models.CharField(choices=CATEGORY_CHOICES, max_length=2)
+    brand = models.CharField(choices=CATEGORY_CHOICES, max_length=200)
     product_image = models.ImageField(upload_to='product')
     
     

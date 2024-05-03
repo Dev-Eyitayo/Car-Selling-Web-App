@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Offshore',
+    'paypal.standard.ipn',
 ]
 
 MIDDLEWARE = [
@@ -128,3 +129,7 @@ LOGIN_REDIRECT = '/profile/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+PAYPAL_RECEIVER_EMAIL = 'ezekielferanmi01@gmail.com'
+PAYPAL_TEST = True
+
