@@ -25,8 +25,8 @@ urlpatterns = [
     path('minuscart/', views.minus_cart,),
     path('removecart/', views.remove_cart,),
     
-    
-    
+    path('paypal-ipn/', views.paypal_ipn_handler, name='paypal-ipn'),
+    path('save-payment-info/', views.save_payment_info, name='save_payment_info'),
     
     # user authentication
     path('create account/', views.CustomerRegistrationView.as_view(), name="register"),

@@ -94,9 +94,9 @@ STATUS_CHOICES = (
 class Payment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     amount = models.FloatField()
-    paypal_order_id = models.CharField(max_length=100, blank=True, null=True)
-    paypal_payment_status = models.CharField(max_length=100, blank=True, null=True)
-    paypal_payment_id = models.CharField(max_length=100, blank=True, null=True)
+    paypalOrderId = models.CharField(max_length=100, blank=True, null=True)
+    paypalPaymentStatus = models.CharField(max_length=100, blank=True, null=True)
+    paypalPaymentID = models.CharField(max_length=100, blank=True, null=True)
     paid = models.BooleanField(default=False)
     
     

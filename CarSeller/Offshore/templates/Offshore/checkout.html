@@ -73,10 +73,15 @@
                 },
                 onApprove: function(data, actions) {
                     return actions.order.capture().then(function(orderData) {
-                        var paypalPaymentID = orderData.purchase_units[0].payments.captures[0].id;
                         console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
-                        document.getElementById('paypal-payment-id').value = paypalPaymentID;
-                        document.getElementById('myform').submit();
+                        var paypalPaymentID = orderData.purchase_units[0].payments.captures[0].id;
+                        var paypalPaymentStatus = orderData.status;
+                        
+                        // Send the payment information to your Django backend to save it to the Payment model
+                        savePaymentInfo(paypalPaymentID, paypalPaymentStatus);
+                        
+                        // Alert the user about the transaction status
+                        alert('Transaction ID: ' + paypalPaymentID + '\nTransaction Status: ' + paypalPaymentStatus);
                     });
                 },
                 onError: function(err) {
@@ -84,6 +89,51 @@
                 }
             }).render('#paypal-button-container');
         });
+
+        // Function to send payment information to Django backend
+        function savePaymentInfo(paymentId, status) {
+            // Send an AJAX request to your Django view to save the payment information
+            // You can use JavaScript fetch API or jQuery AJAX for this
+            // Example using fetch:
+            fetch('/save-payment-info/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')  // Include CSRF token if using Django CSRF protection
+                },
+                body: JSON.stringify({ payment_id: paymentId, status: status })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to save payment information');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Payment information saved successfully:', data);
+            })
+            .catch(error => {
+                console.error('Error saving payment information:', error);
+            });
+        }
+
+        // Function to get CSRF token from cookies
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
     </script>
 
+
 {% endblock payment_gateway %}
+

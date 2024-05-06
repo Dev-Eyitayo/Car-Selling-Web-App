@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from django.http import JsonResponse
-from . models import Product, Customer, Cart
+from django.http import JsonResponse, HttpResponse
+from . models import Product, Customer, Cart, Payment
 from django.db.models import Count, Q
 from .forms import CustomerRegistrationForm, CustomerProfileForm
 from django.contrib import messages
@@ -10,6 +10,9 @@ from django.conf import settings
 import uuid
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
+import json
+
 
 
 
@@ -109,6 +112,7 @@ def add_to_cart(request):
     product = Product.objects.get(id=product_id)
     Cart(user=user, product=product).save()
     return redirect("/cart")
+
     
 def show_cart(request):
     user = request.user
@@ -221,9 +225,54 @@ def checkOut(request):
     
     combined_locals = {**context, **locals()}
     return render(request, 'Offshore/checkout.html', combined_locals)
+    # return render(request, 'Offshore/checkout.html', locals())
+
+@csrf_exempt
+def paypal_ipn_handler(request):
+    # Handle PayPal IPN notification
+    if request.method == 'POST':
+        # Validate the IPN data (optional but recommended)
+        # Process the IPN data and update your models accordingly
+        # Example:
+        ipn_data = request.POST
+        # Process the data and update your models here
+        # Example: Update Payment model based on IPN data
+        payment_id = ipn_data.get('custom')  # Assuming you pass payment ID as 'custom' field
+        payment_status = ipn_data.get('payment_status')
+        if payment_id and payment_status == 'Completed':
+            # Update Payment model
+            payment = Payment.objects.get(id=payment_id)
+            payment.paypal_payment_status = payment_status
+            payment.save()
+            # Update associated OrderPlaced, if needed
+
+    # Return a response to PayPal to acknowledge receipt of the IPN
+    return HttpResponse("OK")
 
 
-
+@csrf_exempt
+def save_payment_info(request):
+    if request.method == 'POST':
+        # Parse the JSON data from the request body
+        data = json.loads(request.body)
+        payment_id = data.get('payment_id')
+        status = data.get('status')
+        amount = data.get('amount')  # Assuming you're sending the amount from the frontend
+        
+        # Create a Payment object and save all relevant information
+        payment = Payment.objects.create(
+            user=request.user,
+            amount=amount,
+            paypalPaymentID=payment_id,
+            paypalPaymentStatus=status,
+            paid=True  # Mark payment as paid
+        )
+        payment.save()
+        # Return JSON response indicating success
+        return JsonResponse({'message': 'Payment information saved successfully.'})
+    else:
+        # Return JSON response with error message if request method is not POST
+        return JsonResponse({'error': 'Invalid request method.'}, status=400)
 
 def paymentSuccessful(request):
     return render(request, 'Offshore/paymentsuccess.html')
@@ -235,5 +284,3 @@ def paymentFailed(request):
 
 
 
-
-# https://meet.google.com/mwy-mcss-vrg
