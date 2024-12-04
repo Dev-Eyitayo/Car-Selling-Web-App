@@ -5,6 +5,8 @@ from . models import Product, Customer, Cart, Payment
 from django.db.models import Count, Q
 from .forms import CustomerRegistrationForm, CustomerProfileForm
 from django.contrib import messages
+from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
 from paypal.standard.forms import PayPalPaymentsForm
 from django.conf import settings
 import uuid
@@ -105,7 +107,7 @@ class updateAddress(View):
         return redirect(address)    
     
     
-    
+@login_required(login_url='/login/')
 def add_to_cart(request):
     user = request.user
     product_id = request.GET.get('prod_id')
@@ -125,6 +127,7 @@ def show_cart(request):
     
     return render(request, 'Offshore/addtocart.html', locals())
 
+@login_required(login_url='/login/')
 def plus_cart(request):
     if request.method == 'GET':
         prod_id = request.GET['prod_id']
@@ -145,7 +148,7 @@ def plus_cart(request):
         }
         return JsonResponse(data)
 
-
+@login_required(login_url='/login/')
 def minus_cart(request):
     if request.method == 'GET':
         prod_id = request.GET['prod_id']
@@ -166,6 +169,8 @@ def minus_cart(request):
         }
         return JsonResponse(data)
 
+
+@login_required(login_url='/login/')
 def remove_cart(request):
     if request.method == 'GET':
         prod_id = request.GET['prod_id']
@@ -186,6 +191,7 @@ def remove_cart(request):
         return JsonResponse(data)
 
 
+@login_required(login_url='/login/')
 def checkOut(request):
     user = request.user
     add = Customer.objects.filter(user=user)
@@ -273,6 +279,14 @@ def save_payment_info(request):
     else:
         # Return JSON response with error message if request method is not POST
         return JsonResponse({'error': 'Invalid request method.'}, status=400)
+
+
+
+
+def logout_view(request):
+    logout(request)  # Django's built-in logout function
+    return redirect('login')  # Redirect to the login page after logout
+
 
 def paymentSuccessful(request):
     return render(request, 'Offshore/paymentsuccess.html')

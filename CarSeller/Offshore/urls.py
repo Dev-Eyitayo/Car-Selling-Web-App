@@ -35,8 +35,10 @@ urlpatterns = [
     
     path("passwordchangedone/", auth_view.PasswordChangeDoneView.as_view(template_name="Offshore/passwordchangedone.html"), name = 'passwordchangedone'),
     
-    path('logout/', auth_view.LogoutView.as_view(next_page='login'), name='logout'),
-    
+    # path('logout/', auth_view.LogoutView.as_view(next_page='login'), name='logout'),
+    path('logout/', views.logout_view, name='logout'),
+
+
     path('password-reset/', auth_view.PasswordResetView.as_view(template_name='Offshore/password_reset.html', form_class=MyPasswordResetForm), name="password_reset"),
     
     path('password-reset/done/', auth_view.PasswordResetDoneView.as_view(template_name='Offshore/password_reset_done.html'), name="password_reset_done"),
